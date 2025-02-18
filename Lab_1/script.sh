@@ -26,11 +26,15 @@ TMP_DIR=$(mktemp -d) ||
     exit 4;
 }
 
-clean() {
-    rm -rf "$TMP_DIR"
+exit_handler()
+{
+    local rc=$?
+    trap - EXIT
+    rm -f -- /tmp/socket
+    exit $rc
 }
 
-trap clean EXIT INT TERM
+trap exit_handler EXIT HUP INT QUIT PIPE TERM
 
 case "$SRC_FILE" in
     *.c)
