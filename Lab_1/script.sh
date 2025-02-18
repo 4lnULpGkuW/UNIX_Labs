@@ -1,4 +1,4 @@
-#!/bin/sh
+#!/bin/sh -e
 
 if [ $# -ne 1 ]; then
     echo "Error: argument not found / too many arguments."
@@ -38,14 +38,15 @@ trap exit_handler EXIT HUP INT QUIT PIPE TERM
 
 case "$SRC_FILE" in
     *.c)
-        sh -c "gcc -o \"$TMP_DIR/$OUTPUT_FILE\" \"$SRC_FILE\""
+        gcc -o \"$TMP_DIR/$OUTPUT_FILE\" \"$SRC_FILE\"
         ;;
     *.cpp)
-        sh -c "g++ -o \"$TMP_DIR/$OUTPUT_FILE\" \"$SRC_FILE\""
+        g++ -o \"$TMP_DIR/$OUTPUT_FILE\" \"$SRC_FILE\"
         ;;
     *.tex)
-        sh -c "cd \"$TMP_DIR\" && pdflatex \"$SRC_FILE\""
-        sh -c "cd \"$TMP_DIR\" && mv document.pdf $OUTPUT_FILE"        
+        cd \"$TMP_DIR\"
+        pdflatex \"$SRC_FILE\"
+        mv document.pdf $OUTPUT_FILE
         ;;
     *)
         echo "Error: file type unknown."
