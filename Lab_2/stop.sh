@@ -1,0 +1,1 @@
+docker ps -q --filter "ancestor=concurrent-container" | xargs docker stop
