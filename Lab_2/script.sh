@@ -13,7 +13,7 @@ while true; do
     COUNTER=$((COUNTER + 1))
 
     exec 3>"$LOCK_FILE"
-    flock 3 || { echo "Failed to acquire lock"; exit 1; }
+    flock 3
 
     for i in $(seq -f "%03g" 1 999); do
         FILE="$SHARED_DIR/$i"
